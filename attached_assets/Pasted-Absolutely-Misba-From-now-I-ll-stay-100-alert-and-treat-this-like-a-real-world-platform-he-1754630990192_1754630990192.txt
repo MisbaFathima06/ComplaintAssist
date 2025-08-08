@@ -1,0 +1,220 @@
+Absolutely Misba 🤍. From now, I’ll stay 100% alert and treat this like a **real-world platform** helping **victims**. Let’s now clearly imagine:
+
+---
+
+# ✅ **Real Backend Workflow of SpeakSecure**
+
+### 🔒 Privacy-first Complaint Platform
+
+For victims of: **harassment, abuse, fear, retaliation**, etc.
+They may be in: **corporates, hostels, homes, madrassas, schools**.
+They may be: **women, children, elders, minorities**.
+
+---
+
+## 👣 **Step-by-step — What Happens in the Backend**
+
+---
+
+### **1. User opens SpeakSecure & logs in anonymously**
+
+* They don’t give real name or email.
+* We use ZK Identity (`trapdoor`, `nullifier`, `commitment`) created **inside browser**, kept **private**.
+
+✅ This identity helps them:
+
+* Prove they're a valid user (without revealing who).
+* Prevent **double-submission** via `nullifierHash`.
+
+---
+
+### **2. User writes complaint (or speaks it out loud)**
+
+Fields:
+
+* **Topic** (Harassment, Public Safety, Legal Help)
+* **Tags** (`hostel`, `teacher`, `mental`, `molestation`, etc.)
+* **Complaint** (actual text or voice transcript)
+* **Attachment** (photo, audio, PDF, etc.) ✅ optional
+* **Emergency contacts** (if in danger) ✅ optional
+* ✅ **Checkbox: “Make this complaint public”** if they want others to know.
+
+---
+
+### **3. Complaint is encrypted before leaving browser**
+
+We use **AES encryption** (via `CryptoJS`) like this:
+
+```js
+const encryptedText = encryptText(complaint);
+```
+
+So even **SpeakSecure admins can’t read the complaint** — only NGOs or Police (if trusted) can **decrypt it** later using a private key (coming in Phase 2).
+
+---
+
+### **4. Complaint is uploaded to IPFS**
+
+✅ We use this code:
+
+```ts
+const ipfs = create({ url: "https://ipfs.infura.io:5001/api/v0" });
+const ipfsResult = await ipfs.add(encryptedText);
+const ipfsCID = ipfsResult.path;
+```
+
+So the **encrypted complaint text** is stored permanently on IPFS, not on our server.
+
+🧾 File name (if attached) is also stored.
+
+---
+
+### **5. Complaint Hash is calculated and stored on blockchain**
+
+```ts
+const complaintHash = CryptoJS.SHA256(encryptedText).toString();
+await logToBlockchain(complaintHash);
+```
+
+✅ This gives:
+
+* **Proof** that the complaint was submitted and can’t be changed.
+* Can be **verified on-chain** by a court or NGO.
+
+---
+
+### **6. ZK Proof is generated to verify identity and prevent abuse**
+
+Using:
+
+```ts
+generateProof(...)
+```
+
+✅ ZK Proof confirms:
+
+* User is in Merkle tree (registered user)
+* They haven’t submitted the same complaint recently (uses `nullifierHash`)
+* No need to reveal identity.
+
+---
+
+### **7. Complaint is stored in backend DB**
+
+API call:
+
+```ts
+POST /api/complaints
+```
+
+The body includes:
+
+```ts
+{
+  topic,
+  ipfsCID,
+  complaintHash,
+  attachments,
+  nullifierHash,
+  isPublic,    // ✅ public or private
+  tags,        // ✅ keywords like hostel, elder, etc.
+  status: "In Progress",
+  upvotes: 0,
+  timestamp: Date.now()
+}
+```
+
+✅ This is saved in `db.json` using lowdb, and will look like:
+
+```json
+{
+  "topic": "Harassment",
+  "ipfsCID": "Qm123...",
+  "complaintHash": "abcdef...",
+  "isPublic": true,
+  "tags": ["hostel", "verbal"],
+  "status": "In Progress",
+  "upvotes": 0,
+  "timestamp": 1691253012
+}
+```
+
+---
+
+### **8. Emergency Alert (Optional, real-time help)**
+
+If user clicks “🚨 I’m in Danger”:
+
+* It asks for confirmation.
+* Sends an **encrypted SMS-like message** to contact numbers.
+
+The backend route:
+
+```ts
+POST /api/alert
+{
+  encrypted: "...",
+  contacts: ["+91XXXXXXX"]
+}
+```
+
+NGO or Police with access to private key (in future) can **decrypt & respond**.
+
+---
+
+### **9. Complaint appears in relevant views**
+
+* ✅ **Admin Dashboard:** shows all complaints (encrypted)
+* ✅ **User View Status:** shows last complaint submitted by the user
+* ✅ **Public Complaints:** only if `isPublic === true`
+
+Public complaints are filtered in backend like this:
+
+```ts
+const publicComplaints = allComplaints.filter(c => c.isPublic);
+```
+
+---
+
+### **10. Upvotes (ZK-based, prevent spam)**
+
+If user clicks “👍 Upvote” on a public complaint:
+
+* It stores `upvoted-<id>` in localStorage using `nullifierHash`
+* Prevents repeated votes
+* Increments `❤️ upvotes` count
+
+---
+
+## 🧪 How You Can Test Backend Realistically:
+
+| Feature             | How to Test?                                    |
+| ------------------- | ----------------------------------------------- |
+| Complaint saved     | Submit → check `db.json` or console log         |
+| IPFS upload         | Check `ipfsCID` field in `db.json`              |
+| Blockchain hash     | Check `logToBlockchain.ts` → console or tx hash |
+| Emergency alert     | Add number → click alert → see server log       |
+| Public filter       | Submit with public checked → see on UI          |
+| ZK Proof generation | Console logs during submission phase            |
+
+---
+
+## ✅ Real NGO/Police Access (Future Phase)
+
+In production, we will:
+
+* Provide NGO a **dashboard with login**
+* Let them **see encrypted complaints** + **decrypt with key**
+* Let them **respond, update status**, or contact victim (safely)
+
+---
+
+Let me know Misba 🤍:
+
+✅ Shall I now give you a backend test checklist with console logs to check everything step-by-step?
+
+Or…
+
+🎨 Should we now focus on the **UI beautification of PublicComplaints** and card layout?
+
+You choose. I’ll follow you without skipping or repeating ❤️
