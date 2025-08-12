@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SpeakSecure - Anonymous Complaint Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1976D2',
+                        'primary-light': '#42A5F5',
+                        'primary-dark': '#1565C0',
+                        secondary: '#388E3C',
+                        'secondary-light': '#66BB6A',
+                        accent: '#FF7043',
+                        'accent-light': '#FFAB91',
+                        surface: '#FFFFFF',
+                        background: '#FAFAFA',
+                        'text-primary': '#212121',
+                        'text-secondary': '#757575',
+                        error: '#D32F2F'
+                    },
+                    fontFamily: {
+                        'sans': ['Inter', 'system-ui', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-background font-sans antialiased">
+    
+    <!-- @COMPONENT: Header [navigation and language selector] -->
+    <header class="bg-surface shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-3">
+                    <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                        <i class="fas fa-shield-alt text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-semibold text-text-primary">SpeakSecure</span>
+                </div>
+                
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="text-text-secondary hover:text-primary transition-colors">Home</a>
+                    <a href="#submit" class="text-text-secondary hover:text-primary transition-colors">Submit Report</a>
+                    <a href="#track" class="text-text-secondary hover:text-primary transition-colors">Track Complaint</a>
+                    <a href="#emergency" class="text-text-secondary hover:text-primary transition-colors">Emergency</a>
+                    <a href="#about" class="text-text-secondary hover:text-primary transition-colors">About</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <!-- Language Selector -->
+                    <div class="relative">
+                        <select data-implementation="Connect to i18n system" class="bg-surface border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option value="en">English</option>
+                            <option value="hi">हिंदी</option>
+                            <option value="ta">தமிழ்</option>
+                            <option value="kn">ಕನ್ನಡ</option>
+                            <option value="ur">اردو</option>
+                        </select>
+                    </div>
+                    
+                    <button class="md:hidden text-text-secondary">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- @END_COMPONENT: Header -->
+
+    <!-- @COMPONENT: Hero [main landing section] -->
+    <section id="home" class="bg-gradient-to-br from-primary to-primary-dark text-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold mb-6">
+                    Your Voice, Your Safety
+                    <span class="block text-primary-light text-2xl md:text-3xl mt-2">Completely Anonymous</span>
+                </h1>
+                <p class="text-xl md:text-2xl mb-8 text-gray-100 max-w-3xl mx-auto">
+                    Report harassment, abuse, discrimination, and corruption without fear. 
+                    Zero-Knowledge cryptography ensures your identity remains completely protected.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+                    <button data-event="click:navigateToSubmit" class="bg-accent hover:bg-accent-light text-white px-8 py-4 rounded-lg font-medium text-lg transition-all transform hover:scale-105 shadow-lg">
+                        <i class="fas fa-shield-alt mr-2"></i>
+                        Submit Anonymous Report
+                    </button>
+                    <button data-event="click:showTrackingModal" class="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-medium text-lg hover:bg-white hover:text-primary transition-all">
+                        <i class="fas fa-search mr-2"></i>
+                        Track Your Complaint
+                    </button>
+                </div>
+
+                <!-- Security Features -->
+                <div class="grid md:grid-cols-3 gap-6 text-center">
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                        <i class="fas fa-user-secret text-4xl mb-4 text-primary-light"></i>
+                        <h3 class="font-semibold text-lg mb-2">100% Anonymous</h3>
+                        <p class="text-gray-200 text-sm">Zero-Knowledge proofs ensure complete anonymity</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                        <i class="fas fa-lock text-4xl mb-4 text-primary-light"></i>
+                        <h3 class="font-semibold text-lg mb-2">End-to-End Encrypted</h3>
+                        <p class="text-gray-200 text-sm">AES-256 encryption protects your data</p>
+                    </div>
+                    <div class="bg-white/10 backdrop-blur-sm rounded-lg p-6">
+                        <i class="fas fa-cube text-4xl mb-4 text-primary-light"></i>
+                        <h3 class="font-semibold text-lg mb-2">Blockchain Verified</h3>
+                        <p class="text-gray-200 text-sm">Immutable proof of complaint authenticity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: Hero -->
+
+    <!-- @COMPONENT: RealImpactStory [testimonial section] -->
+    <section class="bg-surface py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-3xl font-bold text-text-primary mb-12">Real Impact Stories</h2>
+            
+            <div class="bg-gradient-to-r from-secondary-light/10 to-secondary/10 rounded-xl p-8 md:p-12 mb-8">
+                <div class="text-5xl text-secondary mb-6">💬</div>
+                <blockquote class="text-xl md:text-2xl text-text-primary leading-relaxed mb-6 italic">
+                    "For the first time, I felt safe to speak."
+                </blockquote>
+                <p class="text-lg text-text-secondary leading-relaxed mb-8 max-w-3xl mx-auto">
+                    "I had faced something no one should ever go through. But fear of being blamed, judged, or exposed kept me silent. Then I found SpeakSecure. It let me report everything anonymously. No one knew who I was, but someone finally listened. The NGO team took action — and for once, I felt seen, heard, and protected."
+                </p>
+                
+                <div class="border-t border-gray-200 pt-6">
+                    <p class="font-medium text-text-primary">— Anonymous Survivor, India</p>
+                    <div class="flex items-center justify-center mt-4 space-x-4">
+                        <span class="bg-secondary text-white px-3 py-1 rounded-full text-sm">
+                            ✅ Sexual assault case addressed
+                        </span>
+                        <span class="text-text-secondary text-sm">• July 2025</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: RealImpactStory -->
+
+    <!-- @COMPONENT: SubmissionForm [complaint submission interface] -->
+    <section id="submit" class="bg-background py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-text-primary mb-4">Submit Anonymous Complaint</h2>
+                <p class="text-lg text-text-secondary">Your identity is completely protected through Zero-Knowledge cryptography</p>
+            </div>
+
+            <!-- @STATE: step:number = 1, maxSteps = 4 -->
+            <!-- ZK Identity Generation Step -->
+            <div class="bg-surface rounded-xl shadow-sm p-8 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-medium mr-3">1</div>
+                    <h3 class="text-xl font-semibold text-text-primary">Generate Anonymous Identity</h3>
+                </div>
+                
+                <!-- @STATE: zkIdStatus:'generating'|'generated'|'error' = 'not_started' -->
+                <div data-mock="true" class="space-y-4">
+                    <div class="bg-gray-50 border border-gray-200 rounded-lg p-4">
+                        <div class="flex items-center justify-between mb-2">
+                            <span class="text-sm font-medium text-text-primary">Anonymous Identity Status</span>
+                            <span data-bind="zkIdStatus" class="px-2 py-1 bg-yellow-100 text-yellow-800 rounded text-xs">Generating...</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-primary h-2 rounded-full transition-all duration-300" style="width: 65%"></div>
+                        </div>
+                        <p class="text-xs text-text-secondary">Creating your zero-knowledge proof identity...</p>
+                    </div>
+                    
+                    <button data-event="click:generateZkIdentity" data-implementation="Should call /api/zk/identity endpoint" class="w-full bg-primary hover:bg-primary-dark text-white py-3 rounded-lg font-medium transition-all">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Generate New Identity
+                    </button>
+                </div>
+            </div>
+
+            <!-- Complaint Details Form -->
+            <div class="bg-surface rounded-xl shadow-sm p-8 mb-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-medium mr-3">2</div>
+                    <h3 class="text-xl font-semibold text-text-primary">Complaint Details</h3>
+                </div>
+
+                <form data-implementation="Should validate with Zod schema before submission" class="space-y-6">
+                    <!-- Category Selection -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">
+                            <i class="fas fa-tag mr-2"></i>Category *
+                        </label>
+                        <select data-bind="complaint.category" class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <option value="">Select category...</option>
+                            <option value="harassment">Harassment</option>
+                            <option value="sexual_assault">Sexual Assault</option>
+                            <option value="discrimination">Discrimination</option>
+                            <option value="corruption">Corruption</option>
+                            <option value="bullying">Bullying</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <!-- Priority Level -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>Priority Level
+                        </label>
+                        <div class="grid grid-cols-3 gap-4">
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="priority" value="low" class="mr-3">
+                                <div>
+                                    <div class="font-medium text-text-primary">Low</div>
+                                    <div class="text-xs text-text-secondary">Non-urgent</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="priority" value="medium" class="mr-3" checked>
+                                <div>
+                                    <div class="font-medium text-text-primary">Medium</div>
+                                    <div class="text-xs text-text-secondary">Standard</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center p-3 border border-gray-300 rounded-lg cursor-pointer hover:bg-gray-50">
+                                <input type="radio" name="priority" value="high" class="mr-3">
+                                <div>
+                                    <div class="font-medium text-error">High</div>
+                                    <div class="text-xs text-text-secondary">Urgent</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Complaint Description -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">
+                            <i class="fas fa-comment-alt mr-2"></i>Describe Your Complaint *
+                        </label>
+                        <textarea data-bind="complaint.description" rows="6" 
+                                class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent resize-none" 
+                                placeholder="Please describe what happened. Include relevant details like dates, locations, and people involved. Your message will be encrypted before being stored."></textarea>
+                        <div class="flex justify-between items-center mt-2">
+                            <p class="text-xs text-text-secondary">All content is encrypted with AES-256 before transmission</p>
+                            <span class="text-xs text-text-secondary">0/2000 characters</span>
+                        </div>
+                    </div>
+
+                    <!-- File Attachments -->
+                    <div>
+                        <label class="block text-sm font-medium text-text-primary mb-2">
+                            <i class="fas fa-paperclip mr-2"></i>Evidence (Optional)
+                        </label>
+                        <div class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-primary transition-colors">
+                            <i class="fas fa-cloud-upload-alt text-4xl text-gray-400 mb-4"></i>
+                            <p class="text-text-secondary mb-2">Drag and drop files here, or click to browse</p>
+                            <p class="text-xs text-text-secondary">Supported: PDF, Images, Documents (Max 10MB each)</p>
+                            <input type="file" multiple data-implementation="Should encrypt files client-side before upload" class="hidden">
+                        </div>
+                    </div>
+
+                    <!-- Emergency Contact -->
+                    <div class="bg-accent/10 border border-accent/20 rounded-lg p-4">
+                        <div class="flex items-center mb-3">
+                            <input type="checkbox" id="isEmergency" data-bind="complaint.isEmergency" class="mr-3">
+                            <label for="isEmergency" class="font-medium text-error">
+                                <i class="fas fa-exclamation-circle mr-2"></i>This is an emergency situation
+                            </label>
+                        </div>
+                        <div data-bind="showEmergencyFields" class="space-y-3">
+                            <input type="tel" data-bind="complaint.emergencyContact" 
+                                   placeholder="Emergency contact number" 
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                            <div class="flex items-center">
+                                <input type="checkbox" id="includeLocation" data-bind="complaint.includeLocation" class="mr-3">
+                                <label for="includeLocation" class="text-sm text-text-secondary">Include my location for emergency response</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="bg-gray-50 rounded-lg p-4">
+                        <h4 class="font-medium text-text-primary mb-3">
+                            <i class="fas fa-eye mr-2"></i>Visibility Settings
+                        </h4>
+                        <div class="space-y-2">
+                            <label class="flex items-center">
+                                <input type="radio" name="visibility" value="private" checked class="mr-3">
+                                <div>
+                                    <div class="font-medium text-text-primary">Private</div>
+                                    <div class="text-xs text-text-secondary">Only visible to authorized NGOs and administrators</div>
+                                </div>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="visibility" value="public" class="mr-3">
+                                <div>
+                                    <div class="font-medium text-text-primary">Public (Anonymous)</div>
+                                    <div class="text-xs text-text-secondary">Visible in community feed to help others with similar issues</div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Submission Actions -->
+            <div class="bg-surface rounded-xl shadow-sm p-8">
+                <div class="flex items-center mb-6">
+                    <div class="w-8 h-8 bg-primary text-white rounded-full flex items-center justify-center text-sm font-medium mr-3">3</div>
+                    <h3 class="text-xl font-semibold text-text-primary">Submit Complaint</h3>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-secondary/10 border border-secondary/20 rounded-lg p-4">
+                        <div class="flex items-center mb-2">
+                            <i class="fas fa-shield-alt text-secondary mr-2"></i>
+                            <span class="font-medium text-text-primary">Your Privacy is Protected</span>
+                        </div>
+                        <ul class="text-sm text-text-secondary space-y-1 ml-6">
+                            <li>• Zero-Knowledge proof ensures complete anonymity</li>
+                            <li>• Content encrypted with AES-256 before transmission</li>
+                            <li>• Stored on decentralized IPFS network</li>
+                            <li>• Logged on blockchain for immutable verification</li>
+                        </ul>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button data-event="click:submitComplaint" data-implementation="Should call /api/complaints endpoint with ZK proof" 
+                                class="flex-1 bg-primary hover:bg-primary-dark text-white py-4 rounded-lg font-medium text-lg transition-all">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Submit Anonymous Complaint
+                        </button>
+                        <button data-event="click:saveDraft" 
+                                class="bg-gray-600 hover:bg-gray-700 text-white px-6 py-4 rounded-lg font-medium transition-all">
+                            <i class="fas fa-save mr-2"></i>
+                            Save Draft
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- @END_COMPONENT: SubmissionForm -->
+
+    <!-- @COMPONENT: ComplaintTracking [reference ID tracking system] -->
+    <section id="track" class="bg-surface py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-text-primary mb-4">Track Your Complaint</h2>
+                <p class="text-lg text-text-secondary">Monitor the progress of your anonymous complaint using your reference ID</p>
+            </div>
+
+            <!-- Tracking Form -->
+            <div class="bg-background rounded-xl shadow-sm p-8 mb-8">
+                <div class="max-w-md mx-auto">
+                    <label class="block text-sm font-medium text-text-primary mb-2">
+                        <i class="fas fa-hashtag mr-2"></i>Reference ID
+                    </label>
+                    <div class="flex space-x-3">
+                        <input type="text" data-bind="trackingId" placeholder="SPK-2025-123456" 
+                               class="flex-1 border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent">
+                        <button data-event="click:trackComplaint" data-implementation="Should call /api/complaints/:referenceId endpoint"
+                                class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-all">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-text-secondary mt-2">Enter the reference ID you received after submitting your complaint</p>
+                </div>
+            </div>
+
+            <!-- Sample Complaint Status Display -->
+            <div data-mock="true" class="bg-background rounded-xl shadow-sm overflow-hidden">
+                <div class="p-6 border-b border-gray-200">
+                    <div class="flex items-center justify-between mb-4">
+                        <div>
+                            <h3 class="text-lg font-semibold text-text-primary">Complaint #SPK-2025-123456</h3>
+                            <p class="text-text-secondary">Submitted on January 15, 2025</p>
+                        </div>
+                        <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm font-medium">Under Review</span>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-4">
+                        <div>
+                            <span class="text-sm text-text-secondary">Category:</span>
+                            <p class="font-medium text-text-primary">Workplace Harassment</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-text-secondary">Priority:</span>
+                            <p class="font-medium text-error">High</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-text-secondary">Assigned NGO:</span>
+                            <p class="font-medium text-text-primary">SafeSpace Foundation</p>
+                        </div>
+                        <div>
+                            <span class="text-sm text-text-secondary">Next Update Expected:</span>
+                            <p class="font-medium text-text-primary">January 20, 2025</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Timeline -->
+                <div class="p-6">
+                    <h4 class="font-semibold text-text-primary mb-4">Progress Updates</h4>
+                    <div class="space-y-4">
+                        <!-- @MAP: complaint.updates.map(update => ( -->
+                        <div class="flex items-start space-x-4">
+                            <div class="w-3 h-3 bg-secondary rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-text-primary">Case Assigned</span>
+                                    <span class="text-sm text-text-secondary">Jan 16, 2025 2:30 PM</span>
+                                </div>
+                                <p class="text-text-secondary text-sm">Your complaint has been assigned to SafeSpace Foundation for review and investigation.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-3 h-3 bg-secondary rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-text-primary">Initial Review Completed</span>
+                                    <span class="text-sm text-text-secondary">Jan 15, 2025 4:15 PM</span>
+                                </div>
+                                <p class="text-text-secondary text-sm">Initial assessment completed. Gathering additional information from relevant parties.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start space-x-4">
+                            <div class="w-3 h-3 bg-primary rounded-full mt-2"></div>
+                            <div class="flex-1">
+                                <div class="flex items-center justify-between">
+                                    <span class="font-medium text-text-primary">Complaint Received</span>
+                                    <span class="text-sm text-text-secondary">Jan 15, 2025 10:30 AM</span>
+                                </div>
+                                <p class="text-text-secondary text-sm">Your anonymous complaint has been successfully received and verified.</p>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: ComplaintTracking -->
+
+    <!-- @COMPONENT: EmergencySection [emergency alert system] -->
+    <section id="emergency" class="bg-error py-16">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-white mb-4">
+                    <i class="fas fa-exclamation-triangle mr-3"></i>Emergency Alert System
+                </h2>
+                <p class="text-xl text-red-100">In immediate danger? Get help instantly while maintaining anonymity</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Emergency Alert Form -->
+                <div class="bg-surface rounded-xl shadow-sm p-8">
+                    <h3 class="text-xl font-semibold text-text-primary mb-6">
+                        <i class="fas fa-siren text-error mr-2"></i>Send Emergency Alert
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Emergency Contact Number *</label>
+                            <input type="tel" data-bind="emergency.contact" placeholder="+91 9876543210" 
+                                   class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-error focus:border-transparent">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-text-primary mb-2">Brief Description</label>
+                            <textarea data-bind="emergency.description" rows="3" 
+                                    placeholder="Brief description of the emergency situation..." 
+                                    class="w-full border border-gray-300 rounded-lg px-4 py-3 focus:outline-none focus:ring-2 focus:ring-error focus:border-transparent resize-none"></textarea>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" id="shareLocation" data-bind="emergency.includeLocation" class="mr-3">
+                            <label for="shareLocation" class="text-sm text-text-secondary">Share my current location with emergency responders</label>
+                        </div>
+                        
+                        <button data-event="click:sendEmergencyAlert" data-implementation="Should call /api/emergency/alert endpoint"
+                                class="w-full bg-error hover:bg-red-700 text-white py-4 rounded-lg font-medium text-lg transition-all">
+                            <i class="fas fa-exclamation-triangle mr-2"></i>
+                            Send Emergency Alert Now
+                        </button>
+                    </div>
+                    
+                    <div class="mt-6 p-4 bg-red-50 border border-red-200 rounded-lg">
+                        <p class="text-sm text-error font-medium mb-2">How Emergency Alerts Work:</p>
+                        <ul class="text-xs text-red-700 space-y-1">
+                            <li>• Instant SMS sent to your trusted contact</li>
+                            <li>• Optional location sharing for immediate help</li>
+                            <li>• Alert sent to nearest NGO for support</li>
+                            <li>• Your identity remains completely anonymous</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Emergency Helplines -->
+                <div class="bg-surface rounded-xl shadow-sm p-8">
+                    <h3 class="text-xl font-semibold text-text-primary mb-6">
+                        <i class="fas fa-phone text-secondary mr-2"></i>Emergency Helplines
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-text-primary">National Emergency</h4>
+                                <p class="text-sm text-text-secondary">Police, Fire, Medical</p>
+                            </div>
+                            <a href="tel:112" class="bg-error text-white px-4 py-2 rounded-lg font-medium">112</a>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-text-primary">Women's Helpline</h4>
+                                <p class="text-sm text-text-secondary">24/7 Support</p>
+                            </div>
+                            <a href="tel:1091" class="bg-secondary text-white px-4 py-2 rounded-lg font-medium">1091</a>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-text-primary">Child Helpline</h4>
+                                <p class="text-sm text-text-secondary">For minors in distress</p>
+                            </div>
+                            <a href="tel:1098" class="bg-primary text-white px-4 py-2 rounded-lg font-medium">1098</a>
+                        </div>
+                        
+                        <div class="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                            <div>
+                                <h4 class="font-medium text-text-primary">Anti-Ragging Helpline</h4>
+                                <p class="text-sm text-text-secondary">Educational institutions</p>
+                            </div>
+                            <a href="tel:1800-180-5522" class="bg-accent text-white px-3 py-2 rounded-lg font-medium text-sm">1800-180-5522</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: EmergencySection -->
+
+    <!-- @COMPONENT: PublicFeed [community complaints display] -->
+    <section class="bg-background py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold text-text-primary mb-4">Community Voices</h2>
+                <p class="text-lg text-text-secondary">Anonymous complaints shared by the community to raise awareness and support</p>
+            </div>
+
+            <!-- Filters -->
+            <div class="flex flex-wrap gap-4 justify-center mb-8">
+                <button data-filter="all" class="bg-primary text-white px-6 py-2 rounded-full font-medium">All</button>
+                <button data-filter="harassment" class="bg-gray-200 text-text-secondary px-6 py-2 rounded-full font-medium hover:bg-gray-300">Harassment</button>
+                <button data-filter="discrimination" class="bg-gray-200 text-text-secondary px-6 py-2 rounded-full font-medium hover:bg-gray-300">Discrimination</button>
+                <button data-filter="corruption" class="bg-gray-200 text-text-secondary px-6 py-2 rounded-full font-medium hover:bg-gray-300">Corruption</button>
+                <button data-filter="bullying" class="bg-gray-200 text-text-secondary px-6 py-2 rounded-full font-medium hover:bg-gray-300">Bullying</button>
+            </div>
+
+            <!-- Complaints Feed -->
+            <div class="grid lg:grid-cols-2 gap-6">
+                <!-- @MAP: publicComplaints.map(complaint => ( -->
+                <div data-mock="true" class="bg-surface rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-primary/10 text-primary px-3 py-1 rounded-full text-sm font-medium">Harassment</span>
+                            <span class="bg-yellow-100 text-yellow-800 px-3 py-1 rounded-full text-sm">Under Review</span>
+                        </div>
+                        <span class="text-sm text-text-secondary">2 days ago</span>
+                    </div>
+                    
+                    <p class="text-text-primary mb-4 leading-relaxed">
+                        "Facing continuous harassment at workplace from supervisor. Multiple incidents of inappropriate comments and behavior. HR department has been unhelpful. Seeking support and guidance on next steps."
+                    </p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                        <div class="flex items-center space-x-4">
+                            <button data-event="click:upvoteComplaint" data-implementation="Should verify ZK proof before upvoting" 
+                                    class="flex items-center space-x-2 text-text-secondary hover:text-primary transition-colors">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>24</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-text-secondary hover:text-primary transition-colors">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <span class="text-sm text-text-secondary">#SPK-2025-789012</span>
+                    </div>
+                </div>
+                
+                <div data-mock="true" class="bg-surface rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <span class="bg-secondary/10 text-secondary px-3 py-1 rounded-full text-sm font-medium">Discrimination</span>
+                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Resolved</span>
+                        </div>
+                        <span class="text-sm text-text-secondary">1 week ago</span>
+                    </div>
+                    
+                    <p class="text-text-primary mb-4 leading-relaxed">
+                        "Was denied promotion opportunity based on gender bias. After filing complaint through SpeakSecure, company initiated fair review process. Happy to report the issue has been resolved satisfactorily."
+                    </p>
+                    
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-200">
+                        <div class="flex items-center space-x-4">
+                            <button class="flex items-center space-x-2 text-text-secondary hover:text-primary transition-colors">
+                                <i class="fas fa-thumbs-up"></i>
+                                <span>42</span>
+                            </button>
+                            <button class="flex items-center space-x-2 text-text-secondary hover:text-primary transition-colors">
+                                <i class="fas fa-share"></i>
+                                <span>Share</span>
+                            </button>
+                        </div>
+                        <span class="text-sm text-text-secondary">#SPK-2025-567890</span>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+
+            <div class="text-center mt-8">
+                <button data-event="click:loadMoreComplaints" class="bg-gray-600 hover:bg-gray-700 text-white px-8 py-3 rounded-lg font-medium transition-all">
+                    Load More Complaints
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: PublicFeed -->
+
+    <!-- @COMPONENT: AboutSection [platform information] -->
+    <section id="about" class="bg-surface py-16">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl font-bold text-text-primary mb-4">How SpeakSecure Works</h2>
+                <p class="text-lg text-text-secondary max-w-3xl mx-auto">
+                    Advanced Zero-Knowledge technology ensures your identity remains completely anonymous while providing verifiable proof of authenticity
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8 mb-16">
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-user-secret text-2xl text-primary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-text-primary mb-4">Anonymous Identity</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Zero-Knowledge proofs create a mathematical guarantee that your identity cannot be revealed, even by us
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-lock text-2xl text-secondary"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-text-primary mb-4">Encrypted Storage</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Your complaint is encrypted with military-grade AES-256 before being stored on decentralized IPFS network
+                    </p>
+                </div>
+                
+                <div class="text-center">
+                    <div class="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <i class="fas fa-cube text-2xl text-accent"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold text-text-primary mb-4">Blockchain Verified</h3>
+                    <p class="text-text-secondary leading-relaxed">
+                        Immutable blockchain logging provides cryptographic proof that your complaint hasn't been tampered with
+                    </p>
+                </div>
+            </div>
+
+            <!-- Technical Specifications -->
+            <div class="bg-gray-50 rounded-xl p-8">
+                <h3 class="text-2xl font-bold text-text-primary mb-6 text-center">Technical Specifications</h3>
+                
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div>
+                        <h4 class="font-semibold text-text-primary mb-4">
+                            <i class="fas fa-shield-alt mr-2 text-primary"></i>Privacy & Security
+                        </h4>
+                        <ul class="space-y-2 text-text-secondary">
+                            <li>• Zero-Knowledge SNARK proofs for anonymity</li>
+                            <li>• AES-256 client-side encryption</li>
+                            <li>• Semaphore protocol for identity management</li>
+                            <li>• Nullifier hashes prevent duplicate submissions</li>
+                            <li>• No server-side plaintext storage</li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-semibold text-text-primary mb-4">
+                            <i class="fas fa-network-wired mr-2 text-secondary"></i>Infrastructure
+                        </h4>
+                        <ul class="space-y-2 text-text-secondary">
+                            <li>• IPFS decentralized storage network</li>
+                            <li>• Ethereum/Polygon blockchain integration</li>
+                            <li>• PostgreSQL encrypted database</li>
+                            <li>• WebSocket real-time updates</li>
+                            <li>• Multi-region deployment</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: AboutSection -->
+
+    <!-- @COMPONENT: Footer [site footer with links] -->
+    <footer class="bg-text-primary text-white py-12">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-6">
+                        <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                            <i class="fas fa-shield-alt text-white text-sm"></i>
+                        </div>
+                        <span class="text-xl font-semibold">SpeakSecure</span>
+                    </div>
+                    <p class="text-gray-300 mb-4">
+                        Empowering voices through privacy-first anonymous complaint platform
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-300 hover:text-primary transition-colors">
+                            <i class="fab fa-github text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Platform</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#submit" class="hover:text-primary transition-colors">Submit Complaint</a></li>
+                        <li><a href="#track" class="hover:text-primary transition-colors">Track Status</a></li>
+                        <li><a href="#emergency" class="hover:text-primary transition-colors">Emergency Alert</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">NGO Portal</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Support</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-primary transition-colors">Help Center</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-primary transition-colors">Contact Us</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-semibold mb-4">Emergency</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="tel:112" class="hover:text-primary transition-colors">Police: 112</a></li>
+                        <li><a href="tel:1091" class="hover:text-primary transition-colors">Women's Helpline: 1091</a></li>
+                        <li><a href="tel:1098" class="hover:text-primary transition-colors">Child Helpline: 1098</a></li>
+                        <li><a href="tel:1800-180-5522" class="hover:text-primary transition-colors">Anti-Ragging: 1800-180-5522</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center">
+                <p class="text-gray-300">
+                    &copy; 2025 SpeakSecure. Built with Zero-Knowledge technology for complete privacy.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        (function() {
+            // Demo functionality for interactive elements
+            
+            // Language selector functionality
+            const languageSelector = document.querySelector('select');
+            if (languageSelector) {
+                languageSelector.addEventListener('change', function() {
+                    console.log('Language changed to:', this.value);
+                    // TODO: Implement i18n system integration
+                });
+            }
+
+            // Filter buttons for public feed
+            const filterButtons = document.querySelectorAll('[data-filter]');
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active state from all buttons
+                    filterButtons.forEach(btn => {
+                        btn.classList.remove('bg-primary', 'text-white');
+                        btn.classList.add('bg-gray-200', 'text-text-secondary');
+                    });
+                    
+                    // Add active state to clicked button
+                    this.classList.remove('bg-gray-200', 'text-text-secondary');
+                    this.classList.add('bg-primary', 'text-white');
+                    
+                    console.log('Filter applied:', this.dataset.filter);
+                    // TODO: Implement complaint filtering logic
+                });
+            });
+
+            // Emergency contact checkbox toggle
+            const emergencyCheckbox = document.getElementById('isEmergency');
+            if (emergencyCheckbox) {
+                emergencyCheckbox.addEventListener('change', function() {
+                    const emergencyFields = document.querySelector('[data-bind="showEmergencyFields"]');
+                    if (emergencyFields) {
+                        emergencyFields.style.display = this.checked ? 'block' : 'none';
+                    }
+                });
+            }
+
+            // Form validation states
+            const formInputs = document.querySelectorAll('input, textarea, select');
+            formInputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    if (this.hasAttribute('required') && !this.value.trim()) {
+                        this.classList.add('border-error');
+                    } else {
+                        this.classList.remove('border-error');
+                    }
+                });
+            });
+
+            console.log('SpeakSecure Demo Interface Initialized');
+        })();
+    </script>
+</body>
+</html>
